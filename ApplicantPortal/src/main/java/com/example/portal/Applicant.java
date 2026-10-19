@@ -66,5 +66,7 @@ public class Applicant {
     public void setWeeklyHours(String v) { weeklyHours = nullToEmpty(v); }
     public List<String> getAvailableDays() { return availableDays; }
     public void setAvailableDays(List<String> v) { availableDays = new ArrayList<>(v); }
-    public ObservableList<Employment> getEmploymentHistory() { return employmentHistory;
+    public ObservableList<Employment> getEmploymentHistory() { return employmentHistory; }
     }
+
+    // - validation -
