@@ -32,4 +32,18 @@ public class Applicant {
     public static final String F_HISTORY = "history";
 
     public record ValidationError(String fieldId, String message) { }
+
+    private static final Pattern PHONE_CHARS = Pattern.compile("^[0-9()+\\-.\\s]+$");
+    private static final Pattern EMAIL = Pattern.compile("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");
+
+    private String fullName = "";
+    private String address = "";
+    private String phone = "";
+    private String email = "";
+    private boolean eligibleToWorkInUS;
+    private boolean needsSponsorship;
+    private String shiftPreference = "";
+    private String weeklyHours = "";
+    private List<String> availableDays = new ArrayList<>();
+    private final ObservableList<Employment> employmentHistory = FXCollections.observableArrayList();
 }
