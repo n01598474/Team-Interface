@@ -21,5 +21,15 @@ import java.util.regex.Pattern;
  */
 
 public class Applicant {
-    // Blank Applicant class
+
+    /** Field ids shared with the controller so each error can be tied to a control. */
+    public static final String F_NAME = "fullName";
+    public static final String F_ADDRESS = "address";
+    public static final String F_PHONE = "phone";
+    public static final String F_EMAIL = "email";
+    public static final String F_ELIGIBLE = "eligible";
+    public static final String F_SHIFT = "shift";
+    public static final String F_HISTORY = "history";
+
+    public record ValidationError(String fieldId, String message) { }
 }
