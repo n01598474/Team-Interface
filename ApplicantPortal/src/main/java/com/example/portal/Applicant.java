@@ -46,4 +46,25 @@ public class Applicant {
     private String weeklyHours = "";
     private List<String> availableDays = new ArrayList<>();
     private final ObservableList<Employment> employmentHistory = FXCollections.observableArrayList();
-}
+
+    // - accessors -
+    public String getFullName() { return fullName; }
+    public void setFullName(String v) { fullName = nullToEmpty(v); }
+    public String getAddress() { return address; }
+    public void setAddress(String v) { address = nullToEmpty(v); }
+    public String getPhone() { return phone; }
+    public void setPhone(String v) { phone = nullToEmpty(v); }
+    public String getEmail() { return email; }
+    public void setEmail(String v) { email = nullToEmpty(v); }
+    public boolean isEligibleToWorkInUS() { return eligibleToWorkInUS; }
+    public void setEligibleToWorkInUS(boolean v) { eligibleToWorkInUS = v; }
+    public boolean isNeedsSponsorship() { return needsSponsorship; }
+    public void setNeedsSponsorship(boolean v) { needsSponsorship = v; }
+    public String getShiftPreference() { return shiftPreference; }
+    public void setShiftPreference(String v) { shiftPreference = nullToEmpty(v); }
+    public String getWeeklyHours() { return weeklyHours; }
+    public void setWeeklyHours(String v) { weeklyHours = nullToEmpty(v); }
+    public List<String> getAvailableDays() { return availableDays; }
+    public void setAvailableDays(List<String> v) { availableDays = new ArrayList<>(v); }
+    public ObservableList<Employment> getEmploymentHistory() { return employmentHistory;
+    }
