@@ -70,3 +70,40 @@ public class Applicant {
     }
 
     // - validation -
+    public List<ValidationError> validate() {
+        List<ValidationError> errors = new ArrayList<>();
+
+        if (fullName.isBlank()) {
+            errors.add(new ValidationError(F_NAME, "Enter your full name."));
+        }
+        if (address.isBlank()) {
+            errors.add(new ValidationError(F_ADDRESS, "Enter your mailing address."));
+        }
+        String digits = phone.replaceAll("\\D", "");
+        if (!PHONE_CHARS.matcher(phone).matches() || digits.length() < 10 || digits.length() > 15) {
+            errors.add(new ValidationError(F_PHONE, "Enter a phone number with area code, like (555) 010-0142."));
+        }
+        if (!EMAIL.matcher(email.trim()).matches()) {
+            errors.add(new ValidationError(F_EMAIL, "Enter an email address like name@example.com."));
+        }
+        if (!eligibleToWorkInUS) {
+            errors.add(new ValidationError(F_ELIGIBLE, "Confirm that you are legally eligible to work in the United States."));
+        }
+        if (shiftPreference.isBlank()) {
+            errors.add(new ValidationError(F_SHIFT, "Choose a preferred shift."));
+        }
+
+        List<Integer> incompleteRows = new ArrayList<>();
+        for (int i = 0; i < employmentHistory.size(); i++) {
+            Employment e = employmentHistory.get(i);
+            if (e.getEmployer().isBlank() || e.getPosition().isBlank()) {
+                incompleteRows.add(i + 1);
+            }
+        }
+        if (!incompleteRows.isEmpty()) {
+            errors.add(new ValidationError(F_HISTORY,
+                    "Work history row " + incompleteRows.toString().replaceAll("[\\[\\]]", "")
+                            + " needs an employer and a position."));
+        }
+        return errors;
+    }
