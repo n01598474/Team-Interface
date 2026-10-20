@@ -107,3 +107,44 @@ public class Applicant {
         }
         return errors;
     }
+
+    // - export -
+    /** Writes CSV if filename ends w/ .csv, else JSON. */
+    public void exportTo(Path file) throws IOException {
+        boolean csv = file.getFileName().toString().toLowerCase().endsWith(".csv");
+        Files.writeString(file, csv ? toCsv() : toJson(), StandardCharsets.UTF_8);
+    }
+
+public String toJson() {
+    StringBuilder sb = new StringBuilder("{\n");
+    sb.append("  \"fullName\": ").append(q(fullName)).append(",\n");
+    sb.append("  \"address\": ").append(q(address)).append(",\n");
+    sb.append("  \"phone\": ").append(q(phone)).append(",\n");
+    sb.append("  \"email\": ").append(q(email)).append(",\n");
+    sb.append("  \"eligibleToWorkInUS\": ").append(eligibleToWorkInUS).append(",\n");
+    sb.append("  \"needsSponsorship\": ").append(needsSponsorship).append(",\n");
+    sb.append("  \"shiftPreference\": ").append(q(shiftPreference)).append(",\n");
+    sb.append("  \"weeklyHours\": ").append(q(weeklyHours)).append(",\n");
+
+    sb.append("  \"availableDays\": [");
+    for (int i = 0; i < availableDays.size(); i++) {
+        if (i > 0) sb.append(", ");
+        sb.append(q(availableDays.get(i)));
+    }
+    sb.append("],\n");
+
+    sb.append("  \"workHistory\": [");
+    for (int i = 0; i < employmentHistory.size(); i++) {
+        Employment e = employmentHistory.get(i);
+        sb.append(i == 0 ? "\n" : ",\n");
+        sb.append("    {")
+                .append("\"employer\": ").append(q(e.getEmployer())).append(", ")
+                .append("\"position\": ").append(q(e.getPosition())).append(", ")
+                .append("\"startDate\": ").append(q(e.getStartDate())).append(", ")
+                .append("\"endDate\": ").append(q(e.getEndDate())).append(", ")
+                .append("\"reasonForLeaving\": ").append(q(e.getReasonForLeaving()))
+                .append("}");
+    }
+    sb.append(employmentHistory.isEmpty() ? "" : "\n  ").append("]\n}\n");
+    return sb.toString();
+}
