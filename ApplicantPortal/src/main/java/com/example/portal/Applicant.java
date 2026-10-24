@@ -1,7 +1,5 @@
 package com.example.portal;
 
-package com.example.portal;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -15,11 +13,9 @@ import java.util.regex.Pattern;
 
 /**
  * Data model: stores form input/validates/exports it.
- *
  * The class intentionally has NO fields for age, date of birth, marital or
- *  family status, homeownership, or arrest history.
+ * family status, homeownership, or arrest history.
  */
-
 public class Applicant {
 
     /** Field ids shared with the controller so each error can be tied to a control. */
@@ -67,7 +63,6 @@ public class Applicant {
     public List<String> getAvailableDays() { return availableDays; }
     public void setAvailableDays(List<String> v) { availableDays = new ArrayList<>(v); }
     public ObservableList<Employment> getEmploymentHistory() { return employmentHistory; }
-    }
 
     // - validation -
     public List<ValidationError> validate() {
@@ -115,86 +110,87 @@ public class Applicant {
         Files.writeString(file, csv ? toCsv() : toJson(), StandardCharsets.UTF_8);
     }
 
-public String toJson() {
-    StringBuilder sb = new StringBuilder("{\n");
-    sb.append("  \"fullName\": ").append(q(fullName)).append(",\n");
-    sb.append("  \"address\": ").append(q(address)).append(",\n");
-    sb.append("  \"phone\": ").append(q(phone)).append(",\n");
-    sb.append("  \"email\": ").append(q(email)).append(",\n");
-    sb.append("  \"eligibleToWorkInUS\": ").append(eligibleToWorkInUS).append(",\n");
-    sb.append("  \"needsSponsorship\": ").append(needsSponsorship).append(",\n");
-    sb.append("  \"shiftPreference\": ").append(q(shiftPreference)).append(",\n");
-    sb.append("  \"weeklyHours\": ").append(q(weeklyHours)).append(",\n");
+    public String toJson() {
+        StringBuilder sb = new StringBuilder("{\n");
+        sb.append("  \"fullName\": ").append(q(fullName)).append(",\n");
+        sb.append("  \"address\": ").append(q(address)).append(",\n");
+        sb.append("  \"phone\": ").append(q(phone)).append(",\n");
+        sb.append("  \"email\": ").append(q(email)).append(",\n");
+        sb.append("  \"eligibleToWorkInUS\": ").append(eligibleToWorkInUS).append(",\n");
+        sb.append("  \"needsSponsorship\": ").append(needsSponsorship).append(",\n");
+        sb.append("  \"shiftPreference\": ").append(q(shiftPreference)).append(",\n");
+        sb.append("  \"weeklyHours\": ").append(q(weeklyHours)).append(",\n");
 
-    sb.append("  \"availableDays\": [");
-    for (int i = 0; i < availableDays.size(); i++) {
-        if (i > 0) sb.append(", ");
-        sb.append(q(availableDays.get(i)));
+        sb.append("  \"availableDays\": [");
+        for (int i = 0; i < availableDays.size(); i++) {
+            if (i > 0) sb.append(", ");
+            sb.append(q(availableDays.get(i)));
+        }
+        sb.append("],\n");
+
+        sb.append("  \"workHistory\": [");
+        for (int i = 0; i < employmentHistory.size(); i++) {
+            Employment e = employmentHistory.get(i);
+            sb.append(i == 0 ? "\n" : ",\n");
+            sb.append("    {")
+                    .append("\"employer\": ").append(q(e.getEmployer())).append(", ")
+                    .append("\"position\": ").append(q(e.getPosition())).append(", ")
+                    .append("\"startDate\": ").append(q(e.getStartDate())).append(", ")
+                    .append("\"endDate\": ").append(q(e.getEndDate())).append(", ")
+                    .append("\"reasonForLeaving\": ").append(q(e.getReasonForLeaving()))
+                    .append("}");
+        }
+        sb.append(employmentHistory.isEmpty() ? "" : "\n  ").append("]\n}\n");
+        return sb.toString();
     }
-    sb.append("],\n");
 
-    sb.append("  \"workHistory\": [");
-    for (int i = 0; i < employmentHistory.size(); i++) {
-        Employment e = employmentHistory.get(i);
-        sb.append(i == 0 ? "\n" : ",\n");
-        sb.append("    {")
-                .append("\"employer\": ").append(q(e.getEmployer())).append(", ")
-                .append("\"position\": ").append(q(e.getPosition())).append(", ")
-                .append("\"startDate\": ").append(q(e.getStartDate())).append(", ")
-                .append("\"endDate\": ").append(q(e.getEndDate())).append(", ")
-                .append("\"reasonForLeaving\": ").append(q(e.getReasonForLeaving()))
-                .append("}");
+    /** Flat CSV: one line per work-history record, applicant columns repeated on each line. */
+    public String toCsv() {
+        List<String> lines = new ArrayList<>();
+        lines.add("fullName,address,phone,email,eligibleToWorkInUS,needsSponsorship,shiftPreference,"
+                + "weeklyHours,availableDays,employer,position,startDate,endDate,reasonForLeaving");
+
+        String common = String.join(",",
+                csv(fullName), csv(address), csv(phone), csv(email),
+                String.valueOf(eligibleToWorkInUS), String.valueOf(needsSponsorship),
+                csv(shiftPreference), csv(weeklyHours), csv(String.join(" ", availableDays)));
+
+        if (employmentHistory.isEmpty()) {
+            lines.add(common + ",,,,,");
+        }
+        for (Employment e : employmentHistory) {
+            lines.add(common + "," + String.join(",",
+                    csv(e.getEmployer()), csv(e.getPosition()), csv(e.getStartDate()),
+                    csv(e.getEndDate()), csv(e.getReasonForLeaving())));
+        }
+        return String.join("\n", lines) + "\n";
     }
-    sb.append(employmentHistory.isEmpty() ? "" : "\n  ").append("]\n}\n");
-    return sb.toString();
-}
 
-/** Flat CSV: one line per work-history record, applicant columns repeated on each line. */
-public String toCsv() {
-    List<String> lines = new ArrayList<>();
-    lines.add("fullName,address,phone,email,eligibleToWorkInUS,needsSponsorship,shiftPreference,"
-            + "weeklyHours,availableDays,employer,position,startDate,endDate,reasonForLeaving");
+    // - helpers -
+    private static String nullToEmpty(String s) { return s == null ? "" : s.trim(); }
 
-    String common = String.join(",",
-            csv(fullName), csv(address), csv(phone), csv(email),
-            String.valueOf(eligibleToWorkInUS), String.valueOf(needsSponsorship),
-            csv(shiftPreference), csv(weeklyHours), csv(String.join(" ", availableDays)));
-
-    if (employmentHistory.isEmpty()) {
-        lines.add(common + ",,,,,");
-    }
-    for (Employment e : employmentHistory) {
-        lines.add(common + "," + String.join(",",
-                csv(e.getEmployer()), csv(e.getPosition()), csv(e.getStartDate()),
-                csv(e.getEndDate()), csv(e.getReasonForLeaving())));
-    }
-    return String.join("\n", lines) + "\n";
-}
-// - helpers -
-private static String nullToEmpty(String s) { return s == null ? "" : s.trim(); }
-
-private static String q(String s) {
-    StringBuilder sb = new StringBuilder("\"");
-    for (char c : s.toCharArray()) {
-        switch (c) {
-            case '"' -> sb.append("\\\"");
-            case '\\' -> sb.append("\\\\");
-            case '\n' -> sb.append("\\n");
-            case '\r' -> sb.append("\\r");
-            case '\t' -> sb.append("\\t");
-            default -> {
-                if (c < 0x20) sb.append(String.format("\\u%04x", (int) c));
-                else sb.append(c);
+    private static String q(String s) {
+        StringBuilder sb = new StringBuilder("\"");
+        for (char c : s.toCharArray()) {
+            switch (c) {
+                case '"' -> sb.append("\\\"");
+                case '\\' -> sb.append("\\\\");
+                case '\n' -> sb.append("\\n");
+                case '\r' -> sb.append("\\r");
+                case '\t' -> sb.append("\\t");
+                default -> {
+                    if (c < 0x20) sb.append(String.format("\\u%04x", (int) c));
+                    else sb.append(c);
+                }
             }
         }
+        return sb.append('"').toString();
     }
-    return sb.append('"').toString();
-}
 
-private static String csv(String s) {
-    if (s.contains(",") || s.contains("\"") || s.contains("\n") || s.contains("\r")) {
-        return "\"" + s.replace("\"", "\"\"") + "\"";
+    private static String csv(String s) {
+        if (s.contains(",") || s.contains("\"") || s.contains("\n") || s.contains("\r")) {
+            return "\"" + s.replace("\"", "\"\"") + "\"";
+        }
+        return s;
     }
-    return s;
 }
-
