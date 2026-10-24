@@ -170,4 +170,31 @@ public String toCsv() {
     }
     return String.join("\n", lines) + "\n";
 }
+// - helpers -
+private static String nullToEmpty(String s) { return s == null ? "" : s.trim(); }
+
+private static String q(String s) {
+    StringBuilder sb = new StringBuilder("\"");
+    for (char c : s.toCharArray()) {
+        switch (c) {
+            case '"' -> sb.append("\\\"");
+            case '\\' -> sb.append("\\\\");
+            case '\n' -> sb.append("\\n");
+            case '\r' -> sb.append("\\r");
+            case '\t' -> sb.append("\\t");
+            default -> {
+                if (c < 0x20) sb.append(String.format("\\u%04x", (int) c));
+                else sb.append(c);
+            }
+        }
+    }
+    return sb.append('"').toString();
+}
+
+private static String csv(String s) {
+    if (s.contains(",") || s.contains("\"") || s.contains("\n") || s.contains("\r")) {
+        return "\"" + s.replace("\"", "\"\"") + "\"";
+    }
+    return s;
+}
 
