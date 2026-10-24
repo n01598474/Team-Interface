@@ -148,3 +148,26 @@ public String toJson() {
     sb.append(employmentHistory.isEmpty() ? "" : "\n  ").append("]\n}\n");
     return sb.toString();
 }
+
+/** Flat CSV: one line per work-history record, applicant columns repeated on each line. */
+public String toCsv() {
+    List<String> lines = new ArrayList<>();
+    lines.add("fullName,address,phone,email,eligibleToWorkInUS,needsSponsorship,shiftPreference,"
+            + "weeklyHours,availableDays,employer,position,startDate,endDate,reasonForLeaving");
+
+    String common = String.join(",",
+            csv(fullName), csv(address), csv(phone), csv(email),
+            String.valueOf(eligibleToWorkInUS), String.valueOf(needsSponsorship),
+            csv(shiftPreference), csv(weeklyHours), csv(String.join(" ", availableDays)));
+
+    if (employmentHistory.isEmpty()) {
+        lines.add(common + ",,,,,");
+    }
+    for (Employment e : employmentHistory) {
+        lines.add(common + "," + String.join(",",
+                csv(e.getEmployer()), csv(e.getPosition()), csv(e.getStartDate()),
+                csv(e.getEndDate()), csv(e.getReasonForLeaving())));
+    }
+    return String.join("\n", lines) + "\n";
+}
+
