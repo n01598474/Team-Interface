@@ -1,0 +1,64 @@
+/*
+ * UNFinished Business
+ * High Contrast Theme
+ * Member 3 - Visual Design
+ */
+
+.root {
+    -fx-background-color: #000000;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+}
+
+.label {
+    -fx-text-fill: #FFFFFF;
+}
+
+.text-field,
+.combo-box {
+    -fx-background-color: #000000;
+    -fx-text-fill: #FFFFFF;
+    -fx-border-color: #FFFF00;
+    -fx-border-width: 2px;
+}
+
+.button {
+    -fx-background-color: #000000;
+    -fx-text-fill: #FFFF00;
+    -fx-border-color: #FFFF00;
+    -fx-border-width: 2px;
+    -fx-font-weight: bold;
+}
+
+.button:hover {
+    -fx-background-color: #333300;
+}
+
+.check-box {
+    -fx-text-fill: #FFFFFF;
+}
+
+.table-view {
+    -fx-background-color: #000000;
+    -fx-control-inner-background: #000000;
+    -fx-table-cell-border-color: #FFFFFF;
+    -fx-border-color: #FFFFFF;
+}
+
+.table-view .column-header {
+    -fx-background-color: #000000;
+    -fx-border-color: #FFFFFF;
+}
+
+.table-view .table-cell {
+    -fx-text-fill: #FFFFFF;
+}
+
+.button:focused,
+.text-field:focused,
+.combo-box:focused,
+.check-box:focused,
+.table-view:focused {
+    -fx-border-color: #00FFFF;
+    -fx-border-width: 3px;
+}

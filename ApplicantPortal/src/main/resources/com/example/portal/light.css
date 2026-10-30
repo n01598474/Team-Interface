@@ -1,0 +1,43 @@
+/*
+ * UNFinished Business
+ * Light Theme
+ * Member 3 - Visual Design
+ */
+
+.root {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #202020;
+}
+
+.label {
+    -fx-text-fill: #202020;
+}
+
+.text-field,
+.combo-box {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #202020;
+}
+
+.button {
+    -fx-background-color: #E8E8E8;
+    -fx-text-fill: #202020;
+}
+
+.button:hover {
+    -fx-background-color: #D5D5D5;
+}
+
+.table-view {
+    -fx-background-color: #FFFFFF;
+    -fx-control-inner-background: #FFFFFF;
+    -fx-table-cell-border-color: #DDDDDD;
+}
+
+.table-view .column-header {
+    -fx-background-color: #EEEEEE;
+}
+
+.check-box {
+    -fx-text-fill: #202020;
+}
