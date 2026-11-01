@@ -5,20 +5,28 @@
  */
 
 .root {
+    /* JavaFX Engine Defaults */
     -fx-base: #ECEFF3;
     -fx-control-inner-background: #FFFFFF;
     -fx-focus-color: #2C5F7C;
 
+    /* Background & Surfaces */
     -app-bg: #EFF2F5;
     -app-surface: #FFFFFF;
     -app-surface-alt: #F5F7F9;
+
+    /* Typography & Borders */
     -app-text: #1B222B;
     -app-muted: #55616E;
     -app-border: #B8C2CC;
+
+    /* Accents & Interaction */
     -app-accent: #2C5F7C;
     -app-accent-text: #FFFFFF;
+    -app-focus: #0B57D0;
+
+    /* Status & Feedback */
     -app-error: #B3261E;
     -app-error-bg: #FBEAE9;
     -app-success: #1E7145;
-    -app-focus: #0B57D0;
 }
