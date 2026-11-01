@@ -1,0 +1,24 @@
+/*
+ * UNFinished Business
+ * Dark Theme
+ * Member 3 - Visual Design
+ */
+
+.root {
+    -fx-base: #1B2129;
+    -fx-control-inner-background: #1B2129;
+    -fx-focus-color: #6FB8D9;
+
+    -app-bg: #12161B;
+    -app-surface: #1B2129;
+    -app-surface-alt: #222932;
+    -app-text: #E7EBEF;
+    -app-muted: #A3AEBA;
+    -app-border: #3F4A56;
+    -app-accent: #6FB8D9;
+    -app-accent-text: #0B1114;
+    -app-error: #FF8A80;
+    -app-error-bg: #3A2323;
+    -app-success: #6EDCA0;
+    -app-focus: #FFD54F;
+}

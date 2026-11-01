@@ -5,39 +5,28 @@
  */
 
 .root {
-    -fx-background-color: #252525;
-    -fx-text-fill: #FFFFFF;
-}
+    /* JavaFX Engine Defaults */
+    -fx-base: #1B2129;
+    -fx-control-inner-background: #1B2129;
+    -fx-focus-color: #6FB8D9;
 
-.label {
-    -fx-text-fill: #FFFFFF;
-}
+    /* Background & Surfaces */
+    -app-bg: #12161B;
+    -app-surface: #1B2129;
+    -app-surface-alt: #222932;
 
-.text-field,
-.combo-box {
-    -fx-background-color: #3A3A3A;
-    -fx-text-fill: #FFFFFF;
-}
+    /* Typography & Borders */
+    -app-text: #E7EBEF;
+    -app-muted: #A3AEBA;
+    -app-border: #3F4A56;
 
-.button {
-    -fx-background-color: #444444;
-    -fx-text-fill: #FFFFFF;
-}
+    /* Accents & Interaction */
+    -app-accent: #6FB8D9;
+    -app-accent-text: #0B1114;
+    -app-focus: #FFD54F;
 
-.button:hover {
-    -fx-background-color: #555555;
-}
-
-.table-view {
-    -fx-background-color: #303030;
-    -fx-control-inner-background: #303030;
-    -fx-table-cell-border-color: #555555;
-}
-
-.table-view .column-header {
-    -fx-background-color: #444444;
-}
-
-.check-box {
-    -fx-text-fill: #FFFFFF;
+    /* Status & Feedback */
+    -app-error: #FF8A80;
+    -app-error-bg: #3A2323;
+    -app-success: #6EDCA0;
 }
