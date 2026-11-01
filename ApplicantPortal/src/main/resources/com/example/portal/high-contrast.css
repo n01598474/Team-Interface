@@ -6,20 +6,28 @@
 
 /* Yellow on black. Fills use black text on yellow so every pairing stays high contrast. */
 .root {
+    /* JavaFX Engine Defaults */
     -fx-base: #000000;
     -fx-control-inner-background: #000000;
     -fx-focus-color: #FFFF00;
 
+    /* Background & Surfaces */
     -app-bg: #000000;
     -app-surface: #000000;
     -app-surface-alt: #000000;
+
+    /* Typography & Borders */
     -app-text: #FFFF00;
     -app-muted: #FFFF00;
     -app-border: #FFFF00;
+
+    /* Accents & Interaction */
     -app-accent: #FFFF00;
     -app-accent-text: #000000;
+    -app-focus: #FFFFFF;
+
+    /* Status & Feedback */
     -app-error: #FFFF00;
     -app-error-bg: #000000;
     -app-success: #FFFF00;
-    -app-focus: #FFFFFF;
 }
