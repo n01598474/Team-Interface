@@ -4,22 +4,151 @@
  * Member 3 - Visual Design
  */
 
-.root {
-    -fx-font-family: "System";
-    -fx-font-size: 14px;
+/* Structure + component styling. Colors come from the active theme file
+   (light.css / dark.css / high-contrast.css), which defines the -app-* variables. */
+
+.root { -fx-background-color: -app-bg; -fx-faint-focus-color: transparent; }
+
+.label { -fx-text-fill: -app-text; }
+
+/* ---- bars ---- */
+.a11y-bar {
+    -fx-background-color: -app-surface-alt;
+    -fx-border-color: transparent transparent -app-border transparent;
+    -fx-border-width: 0 0 2 0;
+    -fx-padding: 8 16 8 16;
+}
+.bar-caption { -fx-text-fill: -app-muted; -fx-font-size: 0.8em; -fx-font-weight: bold; }
+
+.action-bar {
+    -fx-background-color: -app-surface-alt;
+    -fx-border-color: -app-border transparent transparent transparent;
+    -fx-border-width: 2 0 0 0;
+    -fx-padding: 10 16 10 16;
 }
 
-/* Main application layout */
-.application-container {
-    -fx-padding: 20px;
-    -fx-spacing: 15px;
-}
+/* ---- scroll area + cards ---- */
+.scroll-pane { -fx-background-color: -app-bg; }
+.scroll-pane > .viewport { -fx-background-color: -app-bg; }
 
-/* Section headings */
-.section-heading {
-    -fx-font-size: 18px;
+.card {
+    -fx-background-color: -app-surface;
+    -fx-background-radius: 10;
+    -fx-border-color: -app-border;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 10;
+    -fx-padding: 18;
+}
+.section-title { -fx-font-size: 1.2em; -fx-font-weight: bold; }
+.hint { -fx-text-fill: -app-muted; -fx-font-size: 0.88em; }
+
+/* ---- inputs ---- */
+.text-field, .combo-box {
+    -fx-background-color: -app-surface;
+    -fx-background-radius: 6;
+    -fx-border-color: -app-border;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 6;
+    -fx-text-fill: -app-text;
+    -fx-prompt-text-fill: -app-muted;
+    -fx-padding: 0.3em 0.4em 0.3em 0.4em;
+}
+.combo-box .list-cell { -fx-text-fill: -app-text; -fx-background-color: transparent; }
+.combo-box .arrow-button { -fx-background-color: transparent; }
+.combo-box .arrow { -fx-background-color: -app-text; }
+.combo-box-popup .list-view { -fx-background-color: -app-surface; -fx-border-color: -app-border; }
+.combo-box-popup .list-cell { -fx-background-color: -app-surface; -fx-text-fill: -app-text; }
+.combo-box-popup .list-cell:filled:hover,
+.combo-box-popup .list-cell:filled:selected { -fx-background-color: -app-accent; -fx-text-fill: -app-accent-text; }
+
+.check-box { -fx-text-fill: -app-text; }
+.check-box .box {
+    -fx-background-color: -app-surface;
+    -fx-background-radius: 3;
+    -fx-border-color: -app-text;
+    -fx-border-width: 2;
+    -fx-border-radius: 3;
+}
+.check-box .mark { -fx-background-color: -app-accent-text; }
+.check-box:selected .box { -fx-background-color: -app-accent; }
+
+/* ---- buttons ---- */
+.button, .toggle-button {
+    -fx-background-color: -app-surface;
+    -fx-background-radius: 6;
+    -fx-text-fill: -app-text;
+    -fx-border-color: -app-border;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 6;
+    -fx-padding: 0.4em 0.9em 0.4em 0.9em;
+    -fx-cursor: hand;
+}
+.button:hover, .toggle-button:hover { -fx-border-color: -app-text; }
+.toggle-button:selected { -fx-background-color: -app-accent; -fx-text-fill: -app-accent-text; -fx-font-weight: bold; }
+.button:disabled { -fx-opacity: 0.5; }
+.button.primary {
+    -fx-background-color: -app-accent;
+    -fx-text-fill: -app-accent-text;
     -fx-font-weight: bold;
+    -fx-padding: 0.6em 1.6em 0.6em 1.6em;
 }
+
+/* ---- table ---- */
+.table-view {
+    -fx-background-color: -app-surface;
+    -fx-control-inner-background: -app-surface;
+    -fx-border-color: -app-border;
+    -fx-border-width: 1.5;
+}
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: -app-surface-alt;
+    -fx-border-color: -app-border;
+    -fx-border-width: 0 1 1 0;
+}
+.table-view .column-header .label { -fx-text-fill: -app-text; -fx-font-weight: bold; }
+.table-row-cell { -fx-background-color: -app-surface; -fx-table-cell-border-color: -app-border; }
+.table-row-cell:odd { -fx-background-color: -app-surface-alt; }
+.table-cell { -fx-text-fill: -app-text; }
+.table-view .table-cell:selected { -fx-background-color: -app-accent; -fx-text-fill: -app-accent-text; }
+.table-view .placeholder .label { -fx-text-fill: -app-muted; }
+
+/* ---- keyboard focus: always visible, never color alone (thick border + glow) ---- */
+.text-field:focused, .combo-box:focused, .button:focused, .toggle-button:focused, .table-view:focused {
+    -fx-border-color: -app-focus;
+    -fx-border-width: 3;
+    -fx-effect: dropshadow(gaussian, -app-focus, 5, 0.8, 0, 0);
+}
+.check-box:focused .box {
+    -fx-border-color: -app-focus;
+    -fx-border-width: 3;
+    -fx-effect: dropshadow(gaussian, -app-focus, 5, 0.8, 0, 0);
+}
+.table-view .table-cell:focused { -fx-border-color: -app-focus; -fx-border-width: 2; }
+.hyperlink:focused { -fx-border-color: -app-focus; -fx-border-width: 2; }
+
+/* ---- validation (declared after focus so the red border wins) ---- */
+.text-field.invalid, .combo-box.invalid, .table-view.invalid {
+    -fx-border-color: -app-error;
+    -fx-border-width: 3;
+}
+.text-field.invalid, .combo-box.invalid { -fx-background-color: -app-error-bg; }
+.check-box.invalid .box { -fx-border-color: -app-error; -fx-border-width: 3; }
+
+.field-error { -fx-text-fill: -app-error; -fx-font-weight: bold; -fx-font-size: 0.88em; }
+
+.error-summary {
+    -fx-background-color: -app-error-bg;
+    -fx-background-radius: 6;
+    -fx-border-color: -app-error;
+    -fx-border-width: 2;
+    -fx-border-radius: 6;
+    -fx-padding: 8 12 8 12;
+}
+.summary-title { -fx-text-fill: -app-error; -fx-font-weight: bold; }
+.hyperlink { -fx-text-fill: -app-error; -fx-underline: true; -fx-padding: 2 0 2 0; }
+
+.status { -fx-text-fill: -app-muted; }
+.status-ok { -fx-text-fill: -app-success; -fx-font-weight: bold; }
 
 /* Form controls */
 .text-field,
