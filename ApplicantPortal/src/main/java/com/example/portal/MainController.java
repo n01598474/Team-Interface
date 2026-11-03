@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 
 public class MainController {
 
@@ -127,6 +129,7 @@ public class MainController {
 
         // Apply the initial theme after the scene has been created
         Platform.runLater(this::applyAppearance);
+        setupSectionNavigation();
     }
 
     // --------------------------------------------------
@@ -563,5 +566,77 @@ public class MainController {
         alert.setContentText(message);
 
         alert.showAndWait();
+    }
+
+    // --------------------------------------------------
+    // Section Navigation and Highlights
+    // --------------------------------------------------
+    @FXML private Node applicantSection;
+    @FXML private ToggleButton applicantNav;
+    @FXML private Node eligibilitySection;
+    @FXML private ToggleButton eligibilityNav;
+    @FXML private Node availabilitySection;
+    @FXML private ToggleButton availabilityNav;
+    @FXML private Node employmentSection;
+    @FXML private ToggleButton employmentNav;
+    @FXML private Node submitSection;
+    @FXML private ToggleButton submitNav;
+
+    private void setupSectionNavigation() {
+        Node[] headings = {applicantSection, eligibilitySection, availabilitySection,
+                employmentSection, submitSection};
+        ToggleButton[] buttons = {applicantNav, eligibilityNav, availabilityNav,
+                employmentNav, submitNav};
+        ToggleGroup group = new ToggleGroup();
+        VBox content = (VBox) mainScrollPane.getContent();
+
+        for (int i = 0; i < buttons.length; i++) {
+            Node heading = headings[i];
+            ToggleButton button = buttons[i];
+            button.setToggleGroup(group);
+            if (heading != submitSection) {
+                String headingStyle = heading.getStyle();
+                button.selectedProperty().addListener((observable, wasSelected, selected) ->
+                        heading.setStyle(headingStyle + (selected
+                                ? " -fx-background-color: -fx-focus-color;"
+                                + " -fx-text-fill: ladder(-fx-focus-color, white 49%, black 50%);"
+                                : "")));
+            }
+            button.setOnAction(event -> {
+                double height = navigationScrollHeight();
+                mainScrollPane.setVvalue(height == 0 ? 0
+                        : Math.min(1, Math.max(0, navigationOffset(heading) / height)));
+                group.selectToggle(button);
+            });
+        }
+
+        content.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+            if (!(event.getTarget() instanceof Node clicked)) {
+                return;
+            }
+
+            while (clicked.getParent() != null && clicked.getParent() != content) {
+                clicked = clicked.getParent();
+            }
+
+            int clickedIndex = content.getChildren().indexOf(clicked);
+            for (int i = headings.length - 1; i >= 0; i--) {
+                if (clickedIndex >= content.getChildren().indexOf(headings[i])) {
+                    group.selectToggle(buttons[i]);
+                    return;
+                }
+            }
+        });
+    }
+
+    private double navigationScrollHeight() {
+        return Math.max(0, mainScrollPane.getContent().getLayoutBounds().getHeight()
+                - mainScrollPane.getViewportBounds().getHeight());
+    }
+
+    private double navigationOffset(Node heading) {
+        // The section headings are direct children of the scroll content.
+        return heading.getBoundsInParent().getMinY()
+                - mainScrollPane.getContent().getLayoutBounds().getMinY();
     }
 }
