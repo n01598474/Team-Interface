@@ -8,17 +8,43 @@
             fx:controller="com.example.portal.MainController">
 
     <top>
-        <ToolBar>
-            <Label text="UNFinished Business"/>
-            <Pane HBox.hgrow="ALWAYS"/>
-            <Button fx:id="themeButton" text="Switch Theme"
-                    onAction="#handleThemeToggle"/>
-            <Button text="A-" onAction="#handleFontDecrease"/>
-            <Button text="A+" onAction="#handleFontIncrease"/>
-            <CheckBox fx:id="dyslexiaFontCheckBox"
-                      text="Dyslexia-Friendly Font"
-                      onAction="#handleDyslexiaFontToggle"/>
-        </ToolBar>
+        <VBox>
+            <ToolBar>
+                <Label text="UNFinished Business"/>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Button fx:id="themeButton" text="Switch Theme"
+                        onAction="#handleThemeToggle"/>
+                <Button text="A-" onAction="#handleFontDecrease"/>
+                <Button text="A+" onAction="#handleFontIncrease"/>
+                <CheckBox fx:id="dyslexiaFontCheckBox"
+                          text="Dyslexia-Friendly Font"
+                          onAction="#handleDyslexiaFontToggle"/>
+            </ToolBar>
+            <GridPane>
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="20"/>
+                    <ColumnConstraints percentWidth="20"/>
+                    <ColumnConstraints percentWidth="20"/>
+                    <ColumnConstraints percentWidth="20"/>
+                    <ColumnConstraints percentWidth="20"/>
+                </columnConstraints>
+                <ToggleButton GridPane.columnIndex="0" maxWidth="Infinity" minWidth="0" maxHeight="Infinity" wrapText="true" textAlignment="CENTER" alignment="CENTER" style="-fx-background-radius: 0; -fx-border-color: -fx-box-border; -fx-border-width: 0 1 1 0;" fx:id="applicantNav"
+                              text="Applicant Information"
+                              accessibleText="Go to applicant information"/>
+                <ToggleButton GridPane.columnIndex="1" maxWidth="Infinity" minWidth="0" maxHeight="Infinity" wrapText="true" textAlignment="CENTER" alignment="CENTER" style="-fx-background-radius: 0; -fx-border-color: -fx-box-border; -fx-border-width: 0 1 1 0;" fx:id="eligibilityNav"
+                              text="Work Eligibility"
+                              accessibleText="Go to work eligibility"/>
+                <ToggleButton GridPane.columnIndex="2" maxWidth="Infinity" minWidth="0" maxHeight="Infinity" wrapText="true" textAlignment="CENTER" alignment="CENTER" style="-fx-background-radius: 0; -fx-border-color: -fx-box-border; -fx-border-width: 0 1 1 0;" fx:id="availabilityNav"
+                              text="Availability"
+                              accessibleText="Go to availability"/>
+                <ToggleButton GridPane.columnIndex="3" maxWidth="Infinity" minWidth="0" maxHeight="Infinity" wrapText="true" textAlignment="CENTER" alignment="CENTER" style="-fx-background-radius: 0; -fx-border-color: -fx-box-border; -fx-border-width: 0 1 1 0;" fx:id="employmentNav"
+                              text="Employment History"
+                              accessibleText="Go to employment history"/>
+                <ToggleButton GridPane.columnIndex="4" maxWidth="Infinity" minWidth="0" maxHeight="Infinity" wrapText="true" textAlignment="CENTER" alignment="CENTER" style="-fx-background-radius: 0; -fx-border-color: -fx-box-border; -fx-border-width: 0 0 1 0;" fx:id="submitNav"
+                              text="Submit"
+                              accessibleText="Go to submission controls"/>
+            </GridPane>
+        </VBox>
     </top>
 
     <center>
@@ -29,7 +55,7 @@
                     <Label text="Employment Application"
                            style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
 
-                    <Label text="Applicant Information"/>
+                    <Label fx:id="applicantSection" maxWidth="Infinity" wrapText="true" style="-fx-font-weight: bold; -fx-padding: 8 10;" text="Applicant Information"/>
                     <GridPane hgap="10" vgap="10">
                         <Label text="Full Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                         <TextField fx:id="fullNameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
@@ -46,7 +72,7 @@
 
                     <Separator/>
 
-                    <Label text="Work Eligibility"/>
+                    <Label fx:id="eligibilitySection" maxWidth="Infinity" wrapText="true" style="-fx-font-weight: bold; -fx-padding: 8 10;" text="Work Eligibility"/>
                     <CheckBox fx:id="eligibleCheckBox"
                               text="I am legally eligible to work in the United States"/>
                     <CheckBox fx:id="sponsorshipCheckBox"
@@ -54,7 +80,7 @@
 
                     <Separator/>
 
-                    <Label text="Availability"/>
+                    <Label fx:id="availabilitySection" maxWidth="Infinity" wrapText="true" style="-fx-font-weight: bold; -fx-padding: 8 10;" text="Availability"/>
                     <Label text="Preferred Shift"/>
                     <ComboBox fx:id="shiftComboBox" promptText="Select a shift"/>
 
@@ -76,7 +102,7 @@
 
                     <Separator/>
 
-                    <Label text="Employment History"/>
+                    <Label fx:id="employmentSection" maxWidth="Infinity" wrapText="true" style="-fx-font-weight: bold; -fx-padding: 8 10;" text="Employment History"/>
                     <TableView fx:id="employmentTable" editable="true" prefHeight="220">
                         <columns>
                             <TableColumn fx:id="employerColumn" text="Employer" prefWidth="140"/>
@@ -94,7 +120,7 @@
 
                     <Separator/>
 
-                    <Label text="Application Errors"/>
+                    <Label fx:id="submitSection" maxWidth="Infinity" wrapText="true" style="-fx-font-weight: bold; -fx-padding: 8 10;" text="Application Errors"/>
                     <Label fx:id="errorSummaryLabel"
                            wrapText="true"
                            visible="false"
